@@ -1,0 +1,109 @@
+<div class="invite-customer">
+    <div class="page-heading mt-4">
+        <div class="left">
+            <h1>Self Registered Owners List</h1>
+        </div>
+        <div class="right">
+            <!-- <button class="btn" [routerLink]="['/admin/invite-owner']">
+                <i class="icon-add icon" aria-hidden="true"></i><span>Invite New Owner</span>
+            </button> -->
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="card" (click)="filter('ALL')">
+                <div class="card-body">
+                    <h3 class="greenn">{{userCreated+approved+rejected}}
+                        <span>All</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" (click)="filter('CREATED')" >
+                <div class="card-body">
+                    <h3 class="yelloww">{{userCreated}}
+                        <span>Created</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" (click)="filter('APPROVED')">
+                <div class="card-body">
+                    <h3 class="greenn">{{approved}}
+                        <span>Approved</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" (click)="filter('REJECTED')">
+                <div class="card-body">
+                    <h3 class="redd">{{rejected}}
+                        <span> Rejected</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="customer mt-4">
+        <p-table [columns]="customerHeaders" [value]="invitedCustomerList" class="p-table mt-5" 
+        (onLazyLoad)="refreshPage($event)" [paginator]="true" [lazy]="true" [sortOrder]="1"  
+        [rows]="pageSize" [totalRecords]="totalByStatus"  [showCurrentPageReport]="true"  (onSort)="handleSort($event)" 
+            currentPageReportTemplate="Showing {first} to {last} of {{totalByStatus}} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <ng-container *ngFor="let col of columns">
+                        <th [pSortableColumn]="col.name"  [pSortableColumnDisabled]="!col.sort" [ngStyle]="{'width': col.width}">{{col.header}}<img *ngIf="col.sort" class=" topbottom"
+                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-vendor>
+                <tr >
+                    <!-- <td>{{product.companyId}}</td> -->
+                    <td>{{vendor.companyName}}</td>
+                    <td>{{vendor.fullName}}</td>
+                    <td>{{vendor.emailId}}</td>
+                    <td>{{vendor.country}}</td>
+                    <td>{{vendor.phoneNumber}}</td>
+                    <td>
+                        <div class="status" [ngClass]="[vendor.status=='CREATED' ? 'bg-yellow' : '', vendor.status=='APPROVED' ? 'bg-green' : '',
+                        vendor.status=='REJECTED' ? 'bg-red' : '',]">
+                        <span>{{vendor.status}}</span>
+                    </div>
+
+
+                    </td>
+                    <td>
+                        <div class="inline-img">
+                            <a *ngIf="vendor.status!='CREATED'" [routerLink]="['/admin/owner','view',vendor.ownerId,this.status]">
+                                <i class="icon-view icon " pTooltip="View" tooltipPosition="bottom"></i>
+                            </a>
+                            <a *ngIf="vendor.status=='CREATED'" [routerLink]="['/admin/owner','view',vendor.ownerId,this.status]">
+                                <i class="icon-add-customer icon" pTooltip="View / Approve" tooltipPosition="bottom"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <!-- <td>
+                        <div class="inline-img" *ngIf="vendor.status=='Pending User Creation'">
+                            <a [routerLink]="['/admin/owner','edit',vendor.companyId]"><i
+                                    class="icon-add-customer icon"></i></a>
+                        </div>
+                        
+                        <p-inputSwitch  pTooltip="Enable / Disable" tooltipPosition="bottom" inputSwitch  *ngIf="vendor.status!='Approval Pending' && vendor.status!='Invited' && vendor.status!='User Created' && vendor.status!='Pending User Creation' && vendor.status!='Invitation Expired'" class="contacttext positions" [(ngModel)]="vendor.isActive" (onChange)="changeStatus(vendor)"></p-inputSwitch>
+
+                    </td> -->
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

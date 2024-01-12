@@ -1,0 +1,17 @@
+<div>
+    <div class="seekinformation">
+        <div class="notificationImg mt-5">
+            <img src="../../../assets/images/notification.png" alt="">
+        </div>
+        <div class="sucesstext mt-4">
+            <h3 >Do You Want To Seek 
+                <span *ngIf="dialogFor=='financial'" >Financial</span>
+                <span *ngIf="dialogFor!='financial'" >Directors & Shareholders</span><br>
+                 Information?</h3>
+        </div>
+    </div>
+    <div class="buttons mt-5 mb-5">
+        <button class="btn cancel" (click)="financeData('cancel')">CANCEL</button>
+        <button  class="btn next"  (click)="financeData('want')">YES, I WANT</button>
+    </div>
+</div>

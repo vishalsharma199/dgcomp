@@ -1,0 +1,62 @@
+
+.flx-box{
+    display: flex;
+}
+.rightside{
+    position: relative;
+    margin-left: 13px;
+    background-color: #fff0ed;
+    top: 15px;
+    padding: 20px 10px;
+    .heading{
+        border-bottom: 1px solid lightgray;
+        h2{
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            padding: 10px 0;
+        }
+    }
+    .para{
+        padding: 5px 0;
+        span{
+            font-size: 15px;
+            font-weight: 700;
+
+        }
+    }
+    .heading-data{
+        border-top: 1px solid lightgray;
+        h2{
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            padding: 10px 0;
+        }
+    }
+    .head{
+        margin: 5px 0;
+        h2{
+            font-size: 15px;
+            font-weight: 600;
+            color:#000;
+        }
+    }
+    .data{
+        padding: 10px 0;
+        label{
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            text-decoration: none;
+            .match{
+                color: #ec8412;
+            }
+        }
+    }
+    
+   
+}
+.hide{
+    display: none;
+}

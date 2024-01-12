@@ -1,0 +1,113 @@
+<div class="directors mt-4" *ngIf="financialData">
+    <div class="bank-wrappers mb-4">
+        <div class="bank-box">
+            <div class="left">
+                <img src="../../../assets/images/directors.png" alt="">
+            </div>
+            <div class="right">
+                <label for="">Total Directors</label>
+                <p>{{financialData.totalDirectors}}</p>
+            </div>
+        </div>
+        <div class="bank-box">
+            <div class="left">
+                <img src="../../../assets/images/shareholder.png" alt="">
+            </div>
+            <div class="right">
+                <label for="">Total Shareholders</label>
+                <p>{{financialData.totalShareholders}}</p>
+            </div>
+        </div>
+        <div class="bank-box">
+            <div class="left">
+                <img src="../../../assets/images/no.png" alt="">
+            </div>
+            <div class="right">
+                <label for=""> No of Employees </label>
+                <p>{{financialData.noOfEmployee}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="heading">
+                <h1>Directors</h1>
+            </div>
+            <!-- code for table -->
+            <div class="row">
+                <div class="page-content mt-3">
+                    <div class="showList mt-2">
+                        <p-table class="table catalogue-table" [columns]="locationheaders" [value]="locationData"
+                            class="p-table mt-5" responsiveLayout="scroll" [resizableColumns]="true">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <ng-container *ngFor="let col of columns">
+                                        <th class="cursor-pointer " pSortableColumn={{col.name}}>{{col.header}}<img
+                                                *ngIf="col.sort" class="topbottom"
+                                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                        </th>
+                                    </ng-container>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-user>
+                                <tr style="height: 56px;color: gray;">
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.position}}</td>
+                                    <!-- <td>
+                                        <i class="icon-view icon positions "></i>
+                                        <i class="icon-edit icon  positions"></i>
+
+                                    </td>
+                                    <td>
+                                        <i class="icon-view icon positions "></i>
+                                        <i class="icon-edit icon  positions"></i>
+
+                                    </td> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-6">
+            <div class="heading">
+                <h1>Shareholders</h1>
+            </div>
+            <div class="row">
+                <div class="page-content mt-3">
+                    <div class="showList mt-2">
+        
+        
+                        <p-table class="table catalogue-table" [columns]="shareholderheader" [value]="shareholderdata"
+                            class="p-table mt-5" responsiveLayout="scroll" [resizableColumns]="true">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <ng-container *ngFor="let col of columns">
+                                        <th class="cursor-pointer " pSortableColumn={{col.name}}>{{col.header}}<img
+                                                *ngIf="col.sort" class="topbottom"
+                                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                        </th>
+                                    </ng-container>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-user>
+                                <tr style="height: 56px;color: gray;">
+                                    <td>{{user.companyName}}</td>
+                                    <td>{{user.percentage |currency:'':''}}</td>
+                                    <td>{{user.country}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="directors mt-5 center-form" *ngIf="!financialData">
+    <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600 mt-4">Directors & Shareholders Data Not Available</h3>
+</div>

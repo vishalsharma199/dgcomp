@@ -1,0 +1,134 @@
+<a class="responsive-sidenav" (click)="toggleSidebar()">
+  <i class="icon-nav"></i>
+</a>
+
+<div id="my-nav" [ngClass]="collapsed?'collapsed-sidenav':'expand-sidenav'" class="sidenav">
+ 
+  <ul  *ngIf="isAdmin">
+    <li>
+      <a (click)="toggleSidebar()">
+        <i class="icon-nav"></i>
+      </a>  
+    </li>
+    <li class="user-details">   
+      <i class="icons icon-user"></i>
+        <h1>{{user?.username}}</h1>
+    </li>
+    <li>
+      <a [routerLink]="['admin/dashboard']"  >
+        <i class="icon-dashboard icon" pTooltip="Dashboard"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['admin/owner-list']" (click)="goToAdmin()">
+        <i class="icon-join icon" pTooltip="Listing Page"></i>
+        <span>Listing Page</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['admin/self-invited-owners']" (click)="goToAdmin()">
+        <i class="icon-self-reg icon" pTooltip="Self Registered Owners"></i>
+        <span>Self Registered Owners</span>
+      </a>
+    </li>
+    <li class="user-logout">
+      <a class="logout" href="" (click)="logout()" >
+        <!-- <i class="fa-solid fa-arrow-right-from-bracket"></i> -->
+        <i class="icon" pTooltip="Settings">⇐</i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>  
+
+  <ul  *ngIf="isVendor && isCompanyRes">
+    <li>
+      <a (click)="toggleSidebar()">
+        <i class="icon-nav"></i>
+      </a>
+    </li>
+    <li class="user-details">   
+      <i class="icons icon-user"></i>
+       <h1>{{user?.username}}</h1>
+   </li>
+    <li *ngIf="dashboardStep >=6">
+      <a [routerLink]="['vendor/dashboard']" >
+        <i class="icon-dashboard icon" pTooltip="Dashboard"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li *ngIf="dashboardStep < 6">
+      <a [routerLink]="['vendor/vendor-info']" >
+        <i class="icon-dashboard icon" pTooltip="Dashboard"></i>
+        <span>Company Information</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['vendor/user-management']" >
+        <i class="icon-add-user icon" pTooltip="User Management"></i>
+        <span>User Management</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['vendor/vendor-list-by-owner']">
+        <i class="icon-join icon" pTooltip="Listing Page"></i>
+        <span>Listing Page</span>
+      </a>
+    </li>
+    <li class="user-logout">
+      <a class="logout" href="" (click)="logout()" >
+        <!-- <i class="fa-solid fa-arrow-right-from-bracket"></i> -->
+        <i class="icon" pTooltip="Settings">⇐</i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+
+  <ul *ngIf="isCustomer">
+    <li>
+      <a (click)="toggleSidebar()">
+        <i class="icon-nav"></i>
+      </a>
+    </li>
+    <li class="user-details">   
+      <i class="icons icon-user" pTooltip="User"></i>
+       <h1>{{user?.username}}</h1>
+   </li>
+    <li>
+      <a [routerLink]="['customer/dashboard']" >
+        <i class="icon-dashboard icon" pTooltip="Dashboard"   ></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['customer/user-management']" >
+        <i class="icon-add-user icon" pTooltip="User Management"></i>
+        <span>User Management</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['customer/new-companysearch']" >
+        <i class="icon-smart-search icon" pTooltip="Company Search"></i>
+        <span>Company Search</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['customer/invite-customer']">
+        <i class="icon-join icon" pTooltip="Listing Page"></i>
+        <span>Listing Page</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['customer/customer-setting']" >
+        <i class="icon-setting icon" pTooltip="Settings"></i>
+        <span>Settings</span>
+      </a>
+    </li>
+    <li class="user-logout">
+      <a class="logout" href="" (click)="logout()" title="settings">
+        <i class="icon">⇐</i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+</div>

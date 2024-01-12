@@ -1,0 +1,21 @@
+<ng-container *ngIf="control && control.errors && (submit || control.touched)">
+    <span *ngIf="control.errors.required">{{label?label:'Field'}} is Required</span>
+    <span *ngIf="!control.errors.required && control.errors.phone">Invalid Phone Number</span>
+    <span *ngIf="!control.errors.required && control.errors.noSpecialCharAllow">Special characters not allowed</span>
+    <span *ngIf="!control.errors.noextrawhitespace && control.errors.email">Invalid Email</span>
+    <span *ngIf="control.errors.regNumber">Invalid {{label}}</span>
+    <span *ngIf="control.errors.website">Invalid Website URL</span>
+    <span *ngIf="!control.errors.email && control.errors.businessEmail">Business Email Required</span>
+    <span *ngIf="control.errors.confirmedValidator">Passwords do not match</span>
+    <span *ngIf="control.errors.pattern">Invalid {{label}}</span>
+    <span *ngIf="(!control.errors.required && !control.errors.noextrawhitespace && !control.errors.noSpecialCharAllow && !control.errors.onlycharacters) && control.errors.noWhitespace">No space allowed in {{label}}</span>
+    <span *ngIf="(!control.errors.required && !control.errors.numberOnly && !control.errors.noSpecialCharAllow && !control.errors.onlycharacters && !control.errors.noWhitespace) && control.errors.noextrawhitespace">No extra white space allowed in {{label}}</span>
+    <span *ngIf="control.errors.onlycharacters &&  (!control.errors.noSpecialCharAllow && !control.errors.noSpecialCharAllow)">Only character allowed in {{label}}</span>
+    <span *ngIf="control.errors.duplicated">Duplicate Email ID</span>
+    <span *ngIf="(control.errors.maxlength) && !control.errors.noSpecialCharAllow && !control.errors.onlycharacters && !control.errors.email">{{label}} length should be less than {{control.errors.maxlength.requiredLength}}</span>
+    <span *ngIf="(control.errors.minlength) && !control.errors.noSpecialCharAllow && !control.errors.onlycharacters">{{label}} length should be more than {{control.errors.minlength.requiredLength}}</span>
+    <span *ngIf="control.errors.numberOnly && !control.errors.noSpecialCharAllow">Only number allowed in {{label}}</span>
+    <span *ngIf="control.errors.percentage">Invalid value</span>
+    <span *ngIf="control.errors.passwordValidator">Password does not meet the following requirements</span>
+    <span *ngIf="control.errors.phoneNumberOnly && (!control.errors.noSpecialCharAllow)">Invalid Phone Number</span>
+</ng-container>

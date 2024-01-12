@@ -1,0 +1,42 @@
+<div>
+   <form [formGroup]="profileForm">
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <div>
+                <label for="">Select Entity Type <span class="text-danger" >*</span> </label>
+                <select class="form-select" aria-label="Default select example" (change)="entityTypeChange($event)" placeholder="Select Entity Type" formControlName="entityType">
+                <option selected=""   value="">Select Entity Type</option>
+                <option *ngFor="let entity of entityTypeList" [value]="entity.entityType">{{entity.entityType}}
+                </option>
+                </select>
+            </div>
+            <div app-errors class="error-msg" [control]="f.entityType" [submit]="formSubmitAttempt"
+                label="Entity Type">
+            </div>
+        </div>
+        <div class="col-md-6 form-group">
+            <div>
+                <label for="">Select Entity Name <span class="text-danger" >*</span></label>
+                <select class="form-select" aria-label="Default select example"  formControlName="entityId" (change)="entityNameChange($event)" [attr.disabled]="!f.entityType.value ? '' : null">
+                <option  value="" selected=""  >Select Entity Name</option>
+                <option *ngFor="let entity of entityNameList" [value]="entity.entityId">{{entity.entityName}}
+                </option>
+                </select>
+            </div>
+            <div app-errors class="error-msg" [control]="f.entityId" [submit]="formSubmitAttempt"
+                label="Entity Name">
+            </div>
+        </div>
+    </div>
+
+        <div class="buttons  mt-5">
+            <button  class="btn cancel"  type="button" (click)="close()">Close</button>
+            <button class="btn next" type="button" (click)="submit();" >Submit</button>
+        </div>
+    </form>
+    <p-toast position="top-right">
+    </p-toast>
+    
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+</div>   
+

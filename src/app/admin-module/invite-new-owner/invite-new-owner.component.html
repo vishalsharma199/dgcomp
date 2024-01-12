@@ -1,0 +1,132 @@
+<div class="invite-new-customer" *ngIf="(companyDetails && requestType=='view') || requestType!='view'">
+    <form [formGroup]="inviteCustomerForm">
+        <div class="view">
+            <div class="page-heading mt-4 mb-2">
+                <div class="left">
+                    <h1>{{title}}</h1>
+                </div>
+                <div class="right">
+                    <button class="btn btn-back" (click)="back()">
+                        <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+                    </button>
+                    <button class="btn" *ngIf="!requestType" [routerLink]="['/admin/bulk-invite']">
+                        <i class="icon-user icon"></i><span>Bulk Invite</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for="companyName"> Country<i class="red-star" *ngIf="requestType=='edit'">*</i> </label>
+                        <p-dropdown [options]="countries" filter="true" formControlName="country" optionLabel="name"
+                            (keypress)="characterOnly($event)" optionValue="code" (onChange)="changeCountry($event)"
+                            placeholder="Select a Country"></p-dropdown>
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.country" [submit]="formSubmitAttempt"
+                        label="Country">
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for="customerName"> Company Name<i class="red-star"
+                                *ngIf="requestType=='edit'">*</i></label>
+                        <input type="text" class="form-control" placeholder="Company Name" formControlName="companyName"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.companyName.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.name" [submit]="formSubmitAttempt"
+                        label="Company Name">
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for="emailId">Registration Reference Type<i class="red-star"
+                                *ngIf="requestType=='edit'">*</i></label>
+                        <input type="text" class="form-control" placeholder="Registration Reference Type"
+                            formControlName="identificationType"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.identificationType.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.identificationType" [submit]="formSubmitAttempt"
+                        label="Registration Reference Type">
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for=" phoneNumber">Registration Number<i class="red-star"
+                                *ngIf="requestType=='edit'">*</i> </label>
+                        <input type="text" class="form-control" placeholder="Registration Number"
+                            formControlName="identificationNumber"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.identificationNumber.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.identificationNumber" [submit]="formSubmitAttempt"
+                        label="Registration Number">
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for=" Country">First Name<i class="red-star" *ngIf="requestType=='edit'">*</i> </label>
+                        <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.firstName.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.firstName" [submit]="formSubmitAttempt"
+                        label="First Name"></div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for=" Country">Last Name<i class="red-star" *ngIf="requestType=='edit'">*</i> </label>
+                        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.lastName.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.lastName" [submit]="formSubmitAttempt"
+                        label="Last Name"></div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label for=" Country">Email ID<i class="red-star" *ngIf="requestType=='edit'">*</i> </label>
+                        <input type="text" class="form-control" placeholder="Email ID" formControlName="emailId"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.emailId.errors}">
+                    </div>
+                    <div app-errors class="error-msg" [control]="f.emailId" [submit]="formSubmitAttempt"
+                        label="Email ID"></div>
+                </div>
+
+                <div class="col-md-6 mb-2 admin-invite-customer">
+                    <div class="input-wrapper">
+                        <label class="admin-phone-label" for=" Country">Phone Number<i class="red-star"
+                                *ngIf="requestType=='edit'">*</i> </label>
+                        <input #phone class="form-control admin-phone-number" (keypress)="numberOnly($event)"
+                            placeholder="  " ng2TelInput formControlName="phoneNumber"
+                            
+                            (countryChange)="onCountryChange($event)" (hasError)="onError($event)"
+                            [ngClass]="{'is-invalid':formSubmitAttempt && f.phoneNumber.errors}">
+                    </div>
+                    <div app-errors class="error-msg " [control]="f.phoneNumber" [submit]="formSubmitAttempt"
+                        label="Phone Number"></div>
+                    <div class="error-msg " *ngIf="!f.phoneNumber.errors && !hasError">
+                        Invalid Phone Number
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="buttons" *ngIf="requestType!='view'">
+                <button class="btn cancel" (click)="onClear()">Reset</button>
+                <button class="btn save" (click)="joinDigicomp();">Create User</button>
+            </div>
+            <div class="buttons" *ngIf="requestType=='view' && companyDetails?.status=='CREATED'">
+                <button class="btn cancel" (click)="submit('REJECTED')">Reject</button>
+                <button class="btn save" (click)="submit('APPROVED')">Approve</button>
+            </div>
+        </div>
+
+    </form>
+    <p-toast position="top-right">
+    </p-toast>
+</div>

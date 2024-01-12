@@ -1,0 +1,123 @@
+<!-- this dailog is for Registration Successful -->
+<div class="success-dialog" *ngIf="dialogFor=='email'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1>Registration Successful!</h1>
+            <span>Your ID is Active. You can now login to DigiComp+</span>
+        </div>
+    </div>
+    <button class="btn" (click)="gotoLogin()">Ok</button>
+</div>
+
+<!-- this dailog is for invitation -->
+<div class="success-dialog" *ngIf="dialogFor=='invite'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1>Invite sent Successfully!</h1>
+        </div>
+    </div>
+    <button class="btn" (click)="closeDialog()">Ok</button>
+</div>
+
+<!-- this dailog is for invited by owner invitation -->
+<div class="success-dialog" *ngIf="dialogFor=='invite-owner'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1>Invite sent Successfully!</h1>
+        </div>
+    </div>
+    <button class="btn" (click)="closeDialog1()">Ok</button>
+</div>
+
+<!-- this dailog box is for Self Registration -->
+<div class="success-dialog" *ngIf="dialogFor=='register'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1>Thank You!</h1>
+            <span>Please check your inbox for further assistance.</span>
+        </div>
+    </div>
+    <button class="btn" (click)="closeDialog()">Ok</button>
+</div>
+
+<!-- this dailog is for invitation -->
+<div class="success-dialog" *ngIf="dialogFor=='activate'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1>User Created Successfully!</h1>
+        </div>
+    </div>
+    <button class="btn" (click)="goToInvite()">Ok</button>
+</div>
+
+<!-- this dailog is for Add User -->
+<div class="success-dialog" *ngIf="dialogFor=='addVendorUser'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1 *ngIf="!message">Company User Created Successfully!</h1>
+            <h1 *ngIf="message">{{message}}</h1>
+        </div>
+    </div>
+    <button class="btn" ="goToVendor()">Ok</button>
+</div>
+
+<div class="success-dialog" *ngIf="dialogFor=='addUser'">
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h1 *ngIf="!message">Company User Created Successfully!</h1>
+            <h1 *ngIf="message">{{message}}</h1>
+        </div>
+    </div>
+    <button class="btn" (click)="goToUser()">Ok</button>
+</div>
+
+<div class="success-dialog" *ngIf="dialogFor=='rfi'">
+    <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600">Request For Company Information</h3>
+    
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600">Request Sent Successfully</h3>
+            <p>Your request for information sent to <span class="text-black-600">{{companyInfoData?.companyName}}  </span></p>
+        </div>
+    </div>
+    <button class="btn" (click)="goToCustomer()">Ok</button>
+</div>
+
+<div class="success-dialog" *ngIf="dialogFor=='uploadRfi'">
+    <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600">Request For Document Upload</h3>
+    
+    <div class="sucessbox">
+        <div class="img">
+            <img src="../../../assets/images/success.gif" alt="">
+        </div>
+        <div class="sucesstext">
+            <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600">Request Sent Successfully</h3>
+            <p>Your request for information sent to <span class="text-black-600">{{companyInfoData?.companyName}} </span></p>
+        </div>
+    </div>
+    <button class="btn" (click)="goToCustomer()">Ok</button>
+</div>

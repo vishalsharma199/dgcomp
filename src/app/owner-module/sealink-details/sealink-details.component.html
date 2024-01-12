@@ -1,0 +1,42 @@
+<div class="">
+    <div class="page-heading mt-4">
+      <div class="left">
+        <h1>{{companyName}}</h1>
+      </div>
+      <div class="right">
+        <button class="btn btn-back" (click)="backToRisk()" >
+          <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+        </button>
+      </div>
+    </div>
+
+      <div class="row my-4 pb-5" style="border-bottom: 1px solid lightgray;">
+        <div class="col-3 my-3" *ngFor="let detail of riskData">
+          <p class="detailName">{{detail.name}}</p>
+          <p class="detailValue">{{detail.value}}</p>
+        </div>
+      </div>
+
+      <div class="contactheading">
+        <h2 class="font-sold text-2xl">Risk Rating</h2>
+        <ul class="risk">
+          <li class="mr-3"><span class="box green"></span>Low Risk</li>
+          <li class="mr-3"><span class="box yellow"></span>Medium Risk</li>
+          <li><span class="box red"></span>High Risk</li>
+        </ul>
+      </div>
+
+      <div class="row my-5">
+        <div class="col my-3 risk-col" *ngFor="let rating of riskRating">
+          <p class="riskName h-8 mt-3">{{rating.name}}</p>
+            <!-- <circle-progress class="progress-circle" [percent]="rating.percent" [maxPercent]="10"  [radius]="80" [space]="-14" [outerStrokeWidth]="14" [innerStrokeWidth]="14" [outerStrokeColor]="rating.color" 
+            [innerStrokeColor]="'#ebeff0'" [animation]="true" [backgroundPadding]="20" [titleFontSize]="39" [titleFontWeight]="700"
+            [showSubtitle]="false" [showUnits]="false" [unitsFontSize]="39" [unitsFontWeight]="700" [animationDuration]="300" [renderOnClick]="false"></circle-progress> -->
+          <div style="display: flex; justify-content: center; column-gap: 10px;">
+            <p class="riskCapacity">Capacity: {{rating.capacity}}</p>
+            <img src="../../../assets/images/edit-icon.png" class="editCapacity" (click)="editCapacity(rating.capacity)">
+          </div>
+        </div>
+      </div>
+
+</div>

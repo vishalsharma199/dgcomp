@@ -1,0 +1,19 @@
+<div class="choose-profile">
+    <div class="display-flex radio-container mt-3">
+        <div class="display-flex">
+            <input class="form-check-input ratiobtn " type="radio" value="CUSTOMER/VENDOR" id="vendor" [(ngModel)]="type">
+            <label for="vendor" class="student-radio ml-2 mt-1">Customer/Vendor</label>
+         </div>   
+        <div class="display-flex"> 
+            <input class="form-check-input ratiobtn ml-3" type="radio" value="OWNER"  id="customer" [(ngModel)]="type">
+            <label for="customer" class="student-radio ml-2 mt-1">Owner</label>
+         </div>  
+    </div>   
+    <!-- <div class="checkbox display-flex mt-4">
+        <input type="checkbox"  class="form-check-input" [checked]="true" />
+        <label for="binary" class=" form-check mt-2">Set As Default Profile</label>
+    </div>  -->
+    <div class="buttons mt-4 mb-2">
+        <button class="btn save" (click)="submit()">SUBMIT</button>
+    </div>    
+</div>

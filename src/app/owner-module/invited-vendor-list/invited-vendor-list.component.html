@@ -1,0 +1,176 @@
+<div class="invite-customer">
+    <div class="page-heading  mt-4">
+        <div class="left">
+            <h1>Listing Page</h1>
+        </div>
+        <div class="right">
+            <button class="btn" [routerLink]="['/customer/invite']">
+                Invite To DigiComp+
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2" *ngIf="regStatusData">
+        <div class="col-4">
+            <div class="card" (click)="filter('ALL')">
+                <div class="card-body">
+                    <h3 class="greenn">{{active + inActive}}
+                        <span>All</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" (click)="filter('ACTIVE')">
+                <div class="card-body">
+                    <h3 class="yelloww">{{active}}
+                        <span>Active</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card" (click)="filter('INACTIVE')">
+                <div class="card-body">
+                    <h3 class="bluee">{{inActive}}
+                        <span>Inactive</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+       
+        <!-- <div class="col-3">
+            <div class="card" (click)="filter('Approval Pending')">
+                <div class="card-body">
+                    <h3 class="yelloww">{{approvalPending}}
+                        <span>Approval Pending</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" (click)="filter('Information Pending')">
+                <div class="card-body">
+                    <h3 class="pinkk">{{profileInComplete}}
+                        <span>Information Pending</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" (click)="filter('Invitation Expired')">
+                <div class="card-body">
+                    <h3 class="redd">{{invitationExpired}}
+                        <span>Invitation Expired</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col cardinfo">
+            <div class="card" (click)="filter('Invited')">
+                <div class="card-body">
+                    <h3 class="bluee">{{invited}}
+                        <span> Invited</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col cardinfo">
+            <div class="card"  (click)="filter('Registered')">
+                <div class="card-body">
+                    <h3 class="greenn">{{registered}}
+                        <span>Registered</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col cardinfo">
+            <div class="card" (click)="filter('RFI')">
+                <div class="card-body">
+                    <h3 class="yelloww">{{rfi}}
+                        <span>RFI</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+     
+        <div class="col cardinfo">
+            <div class="card" (click)="filter('Rejected')">
+                <div class="card-body">
+                    <h3 class="redd">{{rejected}}
+                        <span>Rejected</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col cardinfo">
+            <div class="card" (click)="filter('Approved')">
+                <div class="card-body">
+                    <h3 class="greenn">{{approved}}
+                        <span>Approved</span>
+                    </h3>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="customer mt-4">
+        <p-table [columns]="customerHeaders" [value]="invitedVendorList" class="p-table mt-5"  (onLazyLoad)="refreshPage($event)" [paginator]="true" [lazy]="true" [sortOrder]="1"  
+        [rows]="pageSize" [totalRecords]="totalByStatus"  [showCurrentPageReport]="true"  (onSort)="handleSort($event)"
+            currentPageReportTemplate="Showing {first} to {last} of {{totalByStatus}} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <ng-container *ngFor="let col of columns">
+                        <th [pSortableColumn]="col.name" [pSortableColumnDisabled]="!col.sort" [ngStyle]="{'width': col.width}">{{col.header}}<img *ngIf="col.sort" class=" topbottom"
+                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-vendor >
+                <tr>
+                    <!-- <td>{{vendor.companyId}}</td> -->
+                    <td>{{vendor.companyName}}</td>
+                    <td>{{vendor.firstName +" "+ vendor.lastName}}</td>
+                    <td>{{vendor.emailId}}</td>
+                    <!-- <td>{{vendor.country}}</td> -->
+                    <td>{{vendor.phoneNumber}}</td>
+                    <td>{{vendor.vendorType}}</td>
+                    <!-- <td>
+                        <div class="status" [ngClass]="[vendor.status=='Not Started' ? 'bg-notStarted' : '',  
+                            vendor.status=='Link Opened' ? 'bg-blue' : '', vendor.status=='Invited' ? 'bg-blue' : '',
+                            vendor.status=='Approval Pending' ? 'bg-yellow' : '', vendor.status=='Registered' ? 'bg-green' : '', vendor.status=='Approved' ? 'bg-green' : '', vendor.status=='Rejected' ? 'bg-red' : '',
+                            vendor.status=='Profile Incomplete' ? 'bg-pink' :'',vendor.status=='RFI' ? 'bg-yellow' :'',vendor.status=='Submitted' ? 'bg-yellow' :'',vendor.status=='Information Pending' ? 'bg-pink':'',vendor.status=='Registered' ? 'bg-blue' : ''
+                            ]">
+                            
+                            <span>{{vendor.status}}</span>
+                        </div>
+                        
+                    </td> -->
+                    <td>
+
+                        <div class="inline-img">
+                             <a (click)="vendorOpen(vendor.companyId)" ><i class="icon-view cursor-pointer" pTooltip="View" tooltipPosition="bottom"></i></a>
+                        </div>
+                        
+                        <!-- <div class="inline-img" *ngIf="vendor.status=='Submitted'  || vendor.status=='Approval Pending' ||  vendor.status=='RFI' || vendor.status=='Approved'  ||  vendor.status=='Information Pending' || vendor.status=='Approval Pending' || vendor.status=='Rejected' " >
+                            <a (click)="vendorOpen(vendor.companyId)" ><i class="icon-view cursor-pointer" pTooltip="View" tooltipPosition="bottom"></i></a>
+                        </div> -->
+                    </td>
+                    <td >  
+                        <!-- *ngIf="vendor.status=='Approved'" -->
+                        <div>
+                            <p-inputSwitch class="contacttext positions"  pTooltip="Enable / Disable" tooltipPosition="bottom" [(ngModel)]="vendor.isActive" (onChange)="changeStatus(vendor)"></p-inputSwitch>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+
+</div>

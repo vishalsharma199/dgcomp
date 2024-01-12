@@ -1,0 +1,36 @@
+<div class="customer-regulations mt-3">
+    <div class="heading">
+        <h1>Regulations</h1>
+    </div>
+
+    <div class="wrapper">
+        <div class="conditions">
+            <h3>Terms & Conditions</h3>
+        </div>
+        <div class="arrow">
+            <i class="icon-tick-circle icon"></i>
+            <span>Accepted</span>
+        </div>
+    </div>
+    <div class="wrapper borders">
+        <div class="conditions">
+            <h3>Privacy Policy</h3>
+        </div>
+        <div class="arrow">
+            <i class="icon-tick-circle icon"></i>
+            <span>Accepted</span>
+        </div>
+    </div>
+    <form [formGroup]="Form" >
+        <h3 class="mb-2 comment-section">Any Comment / Message</h3>
+        <textarea class="regulation-comment" autoResize="autoResize" formControlName="remark"   [rows]="5" [cols]="80"   pInputTextarea></textarea>
+        
+    </form>
+    <div class="buttons mt-3">
+        <div class="mr-4 btn cancel" (click)="back()">Back</div>
+        <button class="btn cancel" (click)="rejectData()" [disabled]="isRfiGenerated==true || getStatus=='Profile Incomplete' || getStatus=='Rejected' || getStatus=='Not Found'">REJECT</button>
+        <button class="btn next" (click)="approveData()" [disabled]="isRfiGenerated==true || getStatus=='Profile Incomplete' || getStatus=='Rejected' || getStatus=='Not Found'">APPROVE</button>
+        <button class="btn next" (click)="goVenorListing()" *ngIf="isRfiGenerated">Home</button>
+    </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

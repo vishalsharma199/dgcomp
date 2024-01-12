@@ -1,0 +1,205 @@
+<div class="result" >
+    <!-- <form > -->
+        <div class="page-heading mt-4">
+            <div class="left" >
+                <h1 *ngIf="isSeekData">Search Result</h1>
+            </div>
+            <div class="right">
+                <button class="btn btn-back" [routerLink]="['/customer/new-companysearch']">
+                    <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+                </button>
+            </div>
+        </div>
+        <div class="loader" *ngIf="!isSeekData">
+            <div class="loader-text"></div>
+        </div>
+        <div *ngIf="isSeekData">
+            <div class="wrapper mt-3 " *ngIf="searchData && !isFinancial">
+                <div class="sub-heading">
+                    <h2>Best Match</h2>
+                </div>
+                <div class="customer best-match mt-2">
+                    <p-table [columns]="headers" [value]="cisDataBestMatchList" class="p-table mt-5" responsiveLayout="scroll" 
+                    [resizableColumns]="true">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <ng-container *ngFor="let col of columns">
+                                <th nowrap pSortableColumn={{col.name}} [ngStyle]="{'width': col.width}">{{col.header}}<img *ngIf="col.sort"
+                                    class=" topbottom" src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                
+                    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex" >
+                        <tr>
+                            <td>
+                                <div class="names">
+                                    <ul>
+                                        <p class="heading"> {{data.name}} </p>
+                                        <p><span>Match:</span> {{data.matchType}} </p>
+                                        <!-- <p>Match on {{data.matchCount[0].type}} list <span>{{data.matchCount[0].count}}</span> </p> -->
+                                        <ng-container *ngFor="let match of data.matchCount">
+                                            <p>Match on {{match.type}} Lists: <span>{{match.count}}</span> </p>
+                                        </ng-container>   
+                                        <p>Match Score <span>{{data.matchScore}}</span> </p>
+                                        <!-- <p> {{product.match4}} </p> -->
+        
+                                        <!-- <div class="checkbox-btn" *ngIf="data.entityType!='person'">
+                                            <label for="binary">Seek Financial Information</label>
+                                        
+                                            <input type='checkbox'  [(ngModel)]="data.isFinancialInfo" [checked]="data.isFinancialInfo==true"  (change)="checkValue(data)"   class="form-check-input ml-2"   >
+                                        </div> -->
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="entity position">
+                                    <p> {{data.entityType.charAt(0).toUpperCase() + data.entityType.slice(1)}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="description position">
+                                    <ng-container *ngFor="let desc of data.description">
+                                        <p class="desc">{{desc}}</p>
+                                    </ng-container>    
+                                
+                                </div>
+                            </td>
+                            <td>
+                                <div class="td">
+                                    <div class="button position" (click)="changePath(data,'cisDataBestMatchList')">
+                                        <a   >view Details</a>
+                                        <div class="image">
+                                            <img src="../../../assets/images/arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                </div>
+            </div>
+    
+            <div class="wrapper mt-3 mb-5" *ngIf="cisDataPotentialMatchList?.length>0 && !isFinancial">
+                <div class="sub-heading">
+                    <h2 class="mt-4">Potential Matches  </h2>
+                </div>
+                <div class="customer mt-2">
+                    <p-table [columns]="potentialHeader" [value]="cisDataPotentialMatchList" class="p-table mt-5" responsiveLayout="scroll" 
+                    [resizableColumns]="true">
+                    <ng-template pTemplate="header" let-columns  >
+                        <tr>
+                            <ng-container *ngFor="let col of columns">
+                                <th  pSortableColumn={{col.name}} [ngStyle]="{'width': col.width}">{{col.header}}<img *ngIf="col.sort"
+                                    class=" topbottom" src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                
+                    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                        <tr>
+                            <td>
+                                <div class="names">
+                                    <ul>
+                                        <p class="heading"> {{data.name}} </p>
+                                        <p><span>Match:</span> {{data.matchType}} </p>
+                                        <ng-container *ngFor="let match of data.matchCount">
+                                            <p>Match on {{match.type}} Lists: <span>{{match.count}}</span> </p>
+                                        </ng-container>   
+                                        
+                                        <p>Match Score <span>{{data.matchScore}}</span> </p>
+                                        <!-- <div class="checkbox-btn" *ngIf="data.entityType!='person'">
+                                            <label for="binary">Seek Financial Information</label>
+                                        
+                                            <input type='checkbox' [(ngModel)]="data.isFinancialInfo" [checked]="data.isFinancialInfo==true"  (change)="checkPotentialValue(data)"  [ngModelOptions]="{standalone: true}" class="form-check-input ml-2">
+                                        </div> -->
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="entity position">
+                                    <p>{{data.entityType.charAt(0).toUpperCase() + data.entityType.slice(1)}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="description position" >
+                                    <ng-container *ngFor="let desc of data.description">
+                                        <p class="desc">{{desc}}</p>
+                                    </ng-container>    
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="td">
+                                    <div class="button position" (click)="view(data,'cisDataPotentialMatchList')">
+                                        <a >view Details</a>
+                                        <div class="image">
+                                            <img src="../../../assets/images/arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                </div>
+            </div>
+            <div class="wrapper mt-3 mb-5 financial-result" *ngIf="cisFinancialData?.length>0 && isFinancial">
+                <div class="sub-heading">
+                    <h2>Financial Matches  </h2>
+                </div>
+                <div class="customer mt-3">
+                    <p-table [columns]="financialHeader" [value]="cisFinancialData" class="p-table mt-5" responsiveLayout="scroll" 
+                    [resizableColumns]="true">
+                    <ng-template pTemplate="header" let-columns  >
+                        <tr>
+                            <ng-container *ngFor="let col of columns">
+                                <th  pSortableColumn={{col.name}} >{{col.header}}<img *ngIf="col.sort"
+                                    class=" topbottom" src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                
+                    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                        <tr>
+                            <td>
+                            <p>{{data.name}}</p>
+                            </td>
+                            <td>
+                            <p>{{data.country}}</p>
+                            </td>
+                            <td>
+                            <p>{{data.town}}</p>
+                            </td>
+
+                            <td>
+                                <p>{{data.uid}}</p>
+                            </td>
+                            <td>
+                                <p>{{data.addressInfo}}</p>
+                            </td>
+                            <td>
+                                <div class="td">
+                                    <div class="button position" (click)="financialView(data)">
+                                        <a >view Details</a>
+                                        <div class="image">
+                                            <img src="../../../assets/images/arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                </div>
+            </div>
+        </div>
+        <div class="directors mt-5 center-form" *ngIf="isSeekData && !isDataAvailable">
+            <h3 class="font-medium leading-tight text-3xl mt-0 mb-2 text-black-600">Data Not Available</h3>
+        </div>
+    <!-- </form> -->
+</div>

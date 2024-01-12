@@ -1,0 +1,194 @@
+<div class="container upload-container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Upload Documents</h3>
+            <p>Maximum upload file size 10MB. Only PDF File format accepted.</p>
+            <div class="row">
+                <div class="col-md-6" *ngFor="let document of documents">
+                    <div class="uploadContainer space-between" [ngClass]="{  'disable-div': companyInfo?.status == 'Submitted'}"  [id]="document.name">
+                        <p class="title"> {{document.title}}</p>
+
+                        <span class="inline-icon">
+                            <i class="icon-view icon" *ngIf="companyInfo[document.name]" pTooltip="View Document" tooltipPosition="bottom" (click)="download(companyInfo[document.name])"> </i>
+                            <i *ngIf="!disableBtn" class="icon-upload icon" pTooltip="Upload Document" tooltipPosition="bottom" (click)="upload('doc',document.name,null)" ></i>
+                            <!-- <i class="icon-delete icon" *ngIf="companyInfo[document.name]" (click)="deleteFile('doc',document.name,null,companyInfo[document.name].fileName)" ></i> -->
+                        </span>
+                    </div>
+                    <p *ngIf="document.title=='Incorporation Documents'" class="subtitle">(Licenses / Certificates / Gazettes / Notices / etc)</p>
+                </div>
+            </div>
+
+
+
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Documents for Shareholders
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <ng-container *ngFor="let shareHolder of companyInfo.shareHolders;let i = index">
+                                <h6>Upload Documents For <span class="text-primary">{{shareHolder.companyName}}</span></h6>
+                                <div class="row">
+                                    <ng-container *ngFor="let holder of shareHolder.type=='company'?companyShareholders:shareholders" >
+                                        <div class="col-md-6" >
+                                            <div class="uploadContainer space-between" [ngClass]="{  'disable-div': companyInfo?.status == 'Submitted'}"  [id]="holder.name+i">
+                                                <p class="title"> {{holder.title}}</p>
+                                                <span class="inline-icon">
+                                                    <i class="icon-view icon" *ngIf="shareHolder[holder.name]" pTooltip="View Document" tooltipPosition="bottom" (click)="download(shareHolder[holder.name])"> </i>
+                                                    <i class="icon-upload icon"  *ngIf="!disableBtn" pTooltip="Upload Document" tooltipPosition="bottom" (click)="upload('shareholder',holder.name,i)" ></i>
+                                                    <!-- <i class="icon-delete icon" *ngIf="shareHolder[holder.name]" (click)="deleteFile('shareholder',holder.name,i,shareHolder[holder.name].fileName)"></i> -->
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Documents for Directors / Partners / Owners
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <ng-container *ngFor="let boardOfDirector of companyInfo.boardOfDirectors; let i = index">
+                                <h6>Upload Documents For <span class="text-primary"> {{boardOfDirector.fullName}} </span></h6>
+                                <div class="row">
+                                    <div class="col-md-6" *ngFor="let director of directors">
+                                        <div class="uploadContainer space-between" [ngClass]="{  'disable-div': companyInfo?.status == 'Submitted'}"  [id]="'bod'+director.name+i">
+                                            <p class="title"> {{director.title}}</p>
+                                            <span class="inline-icon">
+                                                <i class="icon-view icon"  pTooltip="View Document" tooltipPosition="bottom" *ngIf="boardOfDirector[director.name]" (click)="download(boardOfDirector[director.name])"> </i>
+                                                <i *ngIf="!disableBtn" class="icon-upload icon"  pTooltip="Upload Document" tooltipPosition="bottom" (click)="upload('director',director.name,i)" ></i>
+                                                <!-- <i class="icon-delete icon"  *ngIf="boardOfDirector[director.name]" (click)="deleteFile('director',director.name,i,boardOfDirector[director.name].fileName)" ></i> -->
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Contracts & Key Contacts Information
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="text-right">
+                                <button class="btn btn-primary" *ngIf="!disableBtn" (click)="addContract()">Add Contract</button>
+                            </div>
+                            <form [formGroup]="infoForm">
+                                <div class="row" formArrayName="contractInformation" *ngFor="let contract of contracts">
+                                    <ng-container *ngFor="let contractDoc of infoForm.get('contractInformation')['controls'] ;let i = index">
+                                        <div [formGroupName]="i" class="row mt-3">
+                                        <div class="col-md-6 form-group">
+                                            <label for="">Contract Name</label>
+                                            <input  type="text"  formControlName="contractName" [readonly]="disableBtn"  style="height: 50px;" class="form-control"   name="contractName" (keydown)="validators.space($event)">
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <label for="">Start Date 
+                                                <!-- <span class="text-danger">*</span> -->
+                                            </label>
+                                            <div class="input-group">
+                                                <p-calendar class="w-100" [disabled]="disableBtn" dateFormat="dd-mm-yy" [showIcon]="true" inputId="icon" name="startDate" formControlName="startDate"></p-calendar>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <label for="">End Date 
+                                                <!-- <span class="text-danger">*</span> -->
+                                            </label>
+                                            <div class="input-group">
+                                                <p-calendar class="w-100" [disabled]="disableBtn" dateFormat="dd-mm-yy" [showIcon]="true" inputId="icon" [minDate]="infoForm.get('contractInformation')['controls'][i].value['startDate']" name="endDate" formControlName="endDate"></p-calendar>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <label for="">Renewal Date 
+                                                <!-- <span class="text-danger">*</span> -->
+                                            </label>
+                                            <div class="input-group">
+                                                <p-calendar class="w-100" [disabled]="disableBtn" dateFormat="dd-mm-yy" [showIcon]="true" inputId="icon" [minDate]="infoForm.get('contractInformation')['controls'][i].value['endDate']"  formControlName="renewalDate"></p-calendar>
+
+                                                <!-- <input class="form-control" [minDate]="contractDoc.endDate" [(ngModel)]="contractDoc.renewalDate" placeholder="dd-mm-yyyy" name="dpRenew" ngbDatepicker #d3="ngbDatepicker">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()" type="button"></button>
+                                                </div> -->
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="">Currency</label>
+                                            <input  type="text"  style="height: 50px;" class="form-control" [readonly]="disableBtn" formControlName="currency" >
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="">Annual Value</label>
+                                            <input  type="text"  style="height: 50px;" class="form-control" [readonly]="disableBtn" formControlName="annualValue" >
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="">Contract Owner</label>
+                                            <input  type="text"  style="height: 50px;" class="form-control" [readonly]="disableBtn" formControlName="contractOwner" >
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="">Contact Email</label>
+                                            <input  type="text"  style="height: 50px;" class="form-control" [readonly]="disableBtn" formControlName="email" name="email" (keyup)="emailChange()" (keydown)="validators.space($event)">
+                                            <div app-errors class="error-msg" [control]="contractDoc.get('email')"
+                                            label="Email"></div>
+                
+                                        </div>
+                                        
+                                        <div class="col-md-6 mt-2">
+                                            <div class="uploadContainer space-between" [ngClass]="{  'disable-div': companyInfo?.status == 'Submitted'}" >
+
+                                                <p class="title"> {{contract.title}}</p>
+                                                <span class="inline-icon align-middle">
+                                                <i class="icon-view icon" pTooltip="View Document" tooltipPosition="bottom" *ngIf="infoForm.get('contractInformation')['controls'][i].value['contractDocument']" (click)="download(infoForm.get('contractInformation')['controls'][i].value['contractDocument'])" ></i>
+                                                <i *ngIf="!disableBtn"  pTooltip="Upload Document" tooltipPosition="bottom" class="icon-upload icon"  (click)="upload('contract',contract.name,i)" ></i>
+                                            </span>
+
+                                            </div>
+                                        </div>
+                                        <div class="buttons mb-2" *ngIf="!disableBtn">
+                                            <!-- <button class="btn btn-success mr-2" (click)="updateCompanyInfo()">Save Contract</button> -->
+                                            <button class="btn btn-primary" *ngIf="infoForm.get('contractInformation')['controls']?.length>1" (click)="deleteContract(i)">Delete</button>
+                                        </div>
+                                     </div>   
+                                    </ng-container>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="buttons">
+                <ng-container *ngIf="companyInfo?.status != 'Submitted'">
+                    <button class="btn cancel" (click)="back()">BACK</button>
+                    <button class="btn next" (click)="next('save')">SAVE & NEXT</button>
+                    <!-- <button class="btn next" type="button" (click)="next('submit')" *ngIf="companyInfo?.status == 'Rfi Generated'">SUBMIT</button> -->
+                    <!-- <button class="btn next bg-success" type="button" (click)="skip()">SKIP & NEXT</button> -->
+                </ng-container>
+
+                <ng-container *ngIf="companyInfo?.status == 'Submitted'">
+                    <button class="mr-2 btn cancel" (click)="back()">BACK</button>
+                    <button class="btn next" type="button" (click)="goNext()">Next</button>
+                </ng-container>
+        </div>
+    
+        </div>
+    </div>
+</div>
+<input type="file"  accept="application/pdf" style="visibility: hidden; height: 0px;width: 0px;" max="1" (change)="uploadFile()" #file>

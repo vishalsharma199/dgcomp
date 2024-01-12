@@ -1,0 +1,72 @@
+<div class="invite-customer">
+    <div class="page-heading  mt-4">
+        <div class="left">
+            <h1>Listing Page</h1>
+        </div>
+        <div class="right">
+            <!-- <button class="btn" [routerLink]="['/customer/invite']">
+                Invite To DigiComp+
+            </button> -->
+        </div>
+    </div>
+  
+    <div class="customer mt-4 mnb-4">
+        <p-table [columns]="customerHeaders" [value]="invitedVendorList" class="p-table mt-5" [(first)]="first"
+            responsiveLayout="scroll" [resizableColumns]="true" [paginator]="true" [rows]="pageSize" 
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <ng-container *ngFor="let col of columns">
+                        <th pSortableColumn={{col.name}}>{{col.header}}<img *ngIf="col.sort" class=" topbottom"
+                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-vendor >
+                <tr >
+                    <!-- <td>{{vendor.companyId}}</td> -->
+                    <td>{{vendor.name}}</td>
+                    <td>{{vendor.fullName}}</td>
+                    <td>{{vendor.emailId}}</td>
+                    <!-- <td>{{vendor.country}}</td> -->
+                    <td>{{vendor.phoneNumber}}</td>
+                    <!-- <td>{{vendor.vendorType}}</td> -->
+                    <td>
+                        <div class="status" [ngClass]="[vendor.status=='Not Started' ? 'bg-notStarted' : '',  
+                            vendor.status=='Link Opened' ? 'bg-blue' : '', vendor.status=='Invited' ? 'bg-blue' : '',
+                            vendor.status=='Approval Pending' ? 'bg-yellow' : '', vendor.status=='Registered' ? 'bg-green' : '', vendor.status=='Approved' ? 'bg-green' : '', vendor.status=='Rejected' ? 'bg-red' : '',
+                            vendor.status=='Profile Incomplete' ? 'bg-pink' :'',vendor.status=='RFI' ? 'bg-yellow' :'',vendor.status=='Submitted' ? 'bg-yellow' :'',vendor.status=='Information Pending' ? 'bg-pink':'',vendor.status=='Registered' ? 'bg-blue' : ''
+                            ]">
+                            
+                            <span>{{vendor.status}}</span>
+                        </div>
+                        
+                    </td>
+                    <td>
+
+                        <!-- <div class="inline-img">
+                            <a (click)="vendorOpen(vendor.companyId)" ><i class="icon-view cursor-pointer"></i></a>
+                        </div> -->
+                        
+                        <div class="inline-img" *ngIf="vendor.status=='Submitted'  || vendor.status=='Approval Pending' ||  vendor.status=='RFI' || vendor.status=='Approved'  ||  vendor.status=='Information Pending' || vendor.status=='Approval Pending' || vendor.status=='Rejected' " >
+                            <a (click)="vendorOpen(vendor.companyId)" ><i class="icon-view cursor-pointer" pTooltip="View" tooltipPosition="bottom"></i></a>
+                        </div>
+                    </td>
+                    <!-- <td>
+                        <div  *ngIf="vendor.status=='Approved'"  >
+                            <p-inputSwitch class="contacttext positions"  pTooltip="Enable / Disable" tooltipPosition="bottom" [(ngModel)]="vendor.isActive" (onChange)="changeStatus(vendor)"></p-inputSwitch>
+                        </div>
+                    </td> -->
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+
+</div>

@@ -1,0 +1,182 @@
+<div class="invitesheet">
+        <div class="page-heading mt-4">
+            <div class="left">
+                <h1>Invite To Digi<span class="dg-comp-span">Comp+</span></h1>
+            </div>
+            <div class="right">
+                <button class="btn btn-back" [routerLink]="['/customer/invite']">
+                    <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+                </button>
+                <button class="btn" (click)="bulkInvite()"><i
+                    class="icon-download icon" aria-hidden="true"></i>
+                    <span>Download Bulk Invite Sheet</span></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-width">
+                <div class="inputInv mt-4">
+                    <label for="Student" class="text-gray-400 font-semibold small-col" style="width: 30%;">Upload Sheet</label>
+                    <div class="uploadContainer space-between mx-5 small-col" style="width: 70%;">
+                        <p class="title"> Bulk Invite Sheet</p>
+
+                        <span class="inline-flex">
+                            <!-- <a class="text-info mr-2 inline-flex align-middle" *ngIf="companyInfo[document.name]" (click)="download(companyInfo[document.name].fileName)" > <img src="../../../assets/images/view-icon-grey.png" class="tableIcon"/> </a> -->
+                            <img (click)="upload()" src="../../../assets/images/upload-icon.png" class="tableIcon" pTooltip="Upload Document" tooltipPosition="bottom" />
+                            <img *ngIf="bulkInviteData" (click)="deleteFile()"
+                                src="../../../assets/images/delet-icon.png" class="tableIcon" pTooltip="Delete Document" tooltipPosition="bottom" />
+                        </span>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="col-6 col-width">
+             </div>
+            <div class="col-6 col-width gap">
+                <div class="inputInv">
+                    <label for="Student" class="text-gray-400 font-semibold small-col" style="width: 28%;"></label>
+                    <p class="errMsg">Maximum upload file size 10MB</p>   
+                </div>   
+            </div>    
+        </div>
+        <div class="mt-5">
+            <ng-container *ngIf="!isBlank && bulkInviteData">
+            
+            <form [formGroup]="bulkInviteForm">  
+                <p-table [value]="tableRowArray.controls" responsiveLayout="scroll"   #body  [resizableColumns]="true"
+                class="tableFixed invitesheet-table" styleClass="p-datatable-gridlines">  
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <ng-container *ngFor="let col of columns">
+                                <th *ngIf="col.title!='phoneNumber' && col.title!='companyName'">
+                                        {{col.name}}
+                                </th>
+                                <!-- <th *ngIf="col.title=='seekData'" style="max-width:200px">
+                                    <ng-container>
+                                        {{col.name}}
+                                    </ng-container>
+                                </th> -->
+                                <th *ngIf="col.title=='phoneNumber'" style="max-width:70px">
+                                    {{col.name}}
+                                </th>
+                                <th *ngIf="col.title=='companyName'" style="max-width:220px">
+                                    {{col.name}}
+                                </th>
+                            </ng-container>
+                            <th>Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">  
+                        <ng-container formArrayName="tableRowArray">  
+                            <tr [formGroupName]="rowIndex">  
+                                <td>  
+                                    <!-- <input type="text" class="form-control form-control-sm" formControlName="type" />   -->
+                                    <select class="form-select form-control"  formControlName="type" (change)="selectedValue($event)" style="width:150px">
+                                        <option selected disabled value="">Choose Type...</option>
+                                        <option  value="vendor">Vendor</option>
+                                        <option  value="customer">Customer</option>
+                   
+                                        <!-- <option *ngFor="let vendorType of type">{{vendorType.value}}</option> -->
+                                    </select>
+                                   
+                                   
+                                   <div app-errors class="error-msg" [control]="rowData.get('type')" [submit]="formSubmitAttempt" label="Vendor Type"></div>
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('type').touched  && rowData.get('type').errors?.required">
+                                        Vendor type is required
+                                    </div> -->
+                                </td>  
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="identificationNumber" (keypress)="numberOnly($event)"  (keydown)="validators.space($event)" />  
+                                    <div app-errors class="error-msg" [control]="rowData.get('identificationNumber')" [submit]="formSubmitAttempt" label="Registration Number"></div>
+                                    
+                                </td>
+                                <td>  
+                                    <!-- <input type="text" class="form-control form-control-sm" formControlName="country" (keydown)="validators.space($event)" />   -->
+                                    <p-dropdown [options]="countries" filter="true" formControlName="country" optionLabel="name" (keypress)="characterOnly($event)"  [appendTo]="body"
+                                    optionValue="name" (onChange)="changeCountry($event,rowIndex)" placeholder="Select a Country"  [ngClass]="{'is-invalid':formSubmitAttempt && f.country.errors}">
+                                    </p-dropdown>
+                                    
+                                   <div app-errors class="error-msg" [control]="rowData.get('country')" [submit]="formSubmitAttempt" label="Country"></div>
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('country').touched  && rowData.get('country').errors?.required">
+                                        Country is required
+                                    </div> -->
+                                </td>  
+                            
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="identificationType"    />  
+                                    <div app-errors class="error-msg" [control]="rowData.get('identificationType')" [submit]="formSubmitAttempt" label="Registration Reference Type"></div>
+                                    
+                                </td>
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="name"
+                                    [ngClass]="{'is-invalid':formSubmitAttempt && rowData.get('name').errors}" (keydown)="validators.space($event)"/>  
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('name').touched  && rowData.get('name').errors?.required">
+                                        Company Name is required
+                                    </div>   -->
+                                    <div app-errors class="error-msg" [control]="rowData.get('name')" [submit]="formSubmitAttempt" label="Company Name"></div>
+                                </td>  
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="firstName"   (keydown)="validators.space($event)"/>  
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('firstName').touched  && rowData.get('firstName').errors?.required">
+                                        First Name is required
+                                    </div> -->
+                                    <div app-errors class="error-msg" [control]="rowData.get('firstName')" [submit]="formSubmitAttempt" label="First Name"></div> 
+                                </td>  
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="lastName"   (keydown)="validators.space($event)" />  
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('lastName').touched  && rowData.get('lastName').errors?.required">
+                                        Last Name is required
+                                    </div> -->
+                                    <div app-errors class="error-msg" [control]="rowData.get('lastName')" [submit]="formSubmitAttempt" label="Last Name"></div>  
+                                </td>
+                                <td style="min-width:280px">  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="emailId" (keydown)="validators.space($event)"   />  
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('emailId').touched  && rowData.get('emailId').errors?.required">
+                                        Email ID is required
+                                    </div> -->
+                                    <div app-errors class="error-msg" [control]="rowData.get('emailId')" [submit]="formSubmitAttempt" label="Email ID"></div>  
+                                    <!-- <div class="error-msg" *ngIf="rowData.get('emailId').errors?.email">Email ID is invalid</div>
+                                    <div class="error-msg" *ngIf="rowData.get('emailId').errors?.duplicated">Duplicate Email Id</div> -->
+                                   </td>
+                                <td>  
+                                    <input type="text" class="form-control box-width form-control-sm" formControlName="phoneNumber" (keypress)="numberOnly($event)"  (keydown)="validators.space($event)" />  
+                                    <div class="error-msg" *ngIf="rowData.get('phoneNumber').touched  && rowData.get('phoneNumber').errors?.required">
+                                        Phone Number is required
+                                    </div>
+                                    
+                                </td>
+                             
+                           
+                                <!-- <td style="min-width:100px">  
+                                    <select class="form-select form-control"  formControlName="seekData" (change)="selectedSeekValue($event)">
+                                        <option selected disabled value="">Choose seekData...</option>
+                                        <option  value="yes">Yes</option>
+                                        <option  value="no">No</option>
+                                    </select>
+                                    <div class="error-msg" *ngIf="rowData.get('seekData').touched  && rowData.get('seekData').errors?.required">
+                                        Seek Data is required
+                                    </div>
+                                </td>   -->
+                                <td>  
+                                    <button type="button" class="btn btn-default" title="Delete" (click)="onDeleteRow(rowIndex)">  
+                                        <i class="pi pi-trash text-danger delete" aria-hidden="true" pTooltip="Delete" tooltipPosition="bottom"></i>  
+                                    </button>  
+                                </td>  
+                            </tr>  
+                        </ng-container>  
+                    </ng-template>  
+                </p-table>  
+            </form> 
+            <div class="buttons mt-4" *ngIf="!isBlank && bulkInviteData">
+                <button class="btn cancel" (click)="cancelClick()">Reset</button>
+                <button class="btn next" (click)="submit()" >Send Invite</button>
+            </div>
+            </ng-container>
+        </div>
+
+    
+    <input type="file" accept=".xls,.xlsx" style="visibility: hidden; height: 0px;width: 0px;" max="1"
+        (change)="uploadFile()" #file>
+    <p-toast position="top-right">
+    </p-toast>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

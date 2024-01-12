@@ -1,0 +1,140 @@
+<div class="page-heading mt-4">
+  <div class="left">
+    <h1>{{type=='customer'?'Customers Risk':'Vendor Risk'}}</h1>
+  </div>
+  <div class="right">
+      <button class="btn btn-back" [routerLink]="['/customer/dashboard']">
+          <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+      </button>
+  </div>
+</div>
+
+<div>
+  <div>
+      <div class="contactheading" style="justify-content:right">
+          <ul class="risk">
+            <li class="mr-3"><span class="box green"></span>Low Risk</li>
+            <li class="mr-3"><span class="box yellow"></span>Medium Risk</li>
+            <li><span class="box red"></span>High Risk</li>
+          </ul>
+      </div>
+      <div class="page-content mt-3 mb-5">
+        <div class="showList">
+          <table class="table risk-table mt-3" *ngIf="customerRisk.length>0 || vendorRisk.length>0">
+            <thead>
+                <tr class="name">
+                  <th scope="row" rowspan="4" class="name" >{{type=='customer'?'Customer Name':'Vendor Name'}}</th>
+                </tr>
+                <tr class="risk">
+                  <th colspan="11" scope="colgroup">Risk</th>
+                </tr>
+                <tr class="riskTypes">
+                  <th colspan="2" scope="colgroup">Information Security</th>
+                  <th colspan="2" scope="colgroup">Financial</th>
+                  <th colspan="2" scope="colgroup">Operation</th>
+                  <th colspan="2" scope="colgroup">Enterprise</th>
+                  <th colspan="2" scope="colgroup">Country</th>
+                  <th colspan="1" scope="colgroup">Delete</th>
+                </tr>
+                <tr class="types">
+                  <th scope="col">Actual</th>
+                  <th scope="col">Capacity</th>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Capacity</th>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Capacity</th>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Capacity</th>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Capacity</th>
+                  <th colspan="1"></th>
+                </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="type=='customer'">
+               <tr *ngFor="let col of customerRisk" class="name">
+                 <td [routerLink]="['/customer/risk/customer-risk']">{{col.cisFinancialSearchData.companyName}}</td>
+                 <td class="text-center data">
+                   <span [ngClass]="[col.cyberSecurity<='5'?'green':col.cyberSecurity>'5' && col.cyberSecurity<='7'?'yellow':col.cyberSecurity>'7'?'red':'']">{{col.cyberSecurity}}</span>
+                  </td>
+                 <td class="text-center" >
+                   <!-- <span class="capacity">{{col.capacity}}</span> -->
+                  </td>
+                  <td class="text-center">
+                    <!-- <span class="actual1" [ngClass]="[col.financial<='5'?'green':col.financial>'5' && col.financial<='7'?'yellow':col.financial>'7'?'red':'']">{{col.financial}}</span> -->
+                   </td>
+                  <td class="text-center" >
+                  <!-- <span class="capacity">{{col.capacity}}</span> -->
+                 </td>
+                 <td class="text-center">
+                  <!-- <span class="actual2" [ngClass]="[col.operation<='5'?'green':col.operation>'5' && col.operation<='7'?'yellow':col.operation>'7'?'red':'']">{{col.operation}}</span> -->
+                 </td>
+                 <td class="text-center" >
+                  <!-- <span class="capacity">{{col.capacity}}</span> -->
+                 </td>
+                 <td class="text-center ">
+                  <!-- <span class="actual3" [ngClass]="[col.enterprise<='5'?'green':col.enterprise>'5' && col.enterprise<='7'?'yellow':col.enterprise>'7'?'red':'']">{{col.enterprise}}</span> -->
+                 </td>
+                 <td class="text-center" >
+                  <!-- <span class="capacity">{{col.capacity}}</span> -->
+                 </td>
+                 <td class="text-center ">
+                  <!-- <span class="actual4" [ngClass]="[col.country<='5'?'green':col.country>'5' && col.country<='7'?'yellow':col.country>'7'?'red':'']">{{col.country}}</span> -->
+                 </td>
+                 <td class="text-center" >
+                  <!-- <span class="capacity">{{col.capacity}}</span> -->
+                 </td>
+                 <td>
+                  <button type="button" class="btn btn-default" title="Delete" (click)="onDeleteRow(col,rowIndex)">  
+                    <i class="pi pi-trash text-danger delete" aria-hidden="true" pTooltip="Delete" tooltipPosition="bottom"></i>  
+                  </button>  
+                </td>
+               </tr>
+              </ng-container>
+              <ng-container *ngIf="type=='vendor'">
+                <tr *ngFor="let col of vendorRisk" class="name">
+                  <td [routerLink]="['/customer/risk/vendor-risk']">{{col.cisFinancialSearchData.companyName}}</td>
+                  <td class="text-center data">
+                    <!-- <span [ngClass]="[col.cyberSecurity<='5'?'green':col.cyberSecurity>'5' && col.cyberSecurity<='7'?'yellow':col.cyberSecurity>'7'?'red':'']">{{col.cyberSecurity}}</span> -->
+                   </td>
+                  <td class="text-center" >
+                    <!-- <span class="capacity">{{col.capacity}}</span> -->
+                   </td>
+                   <td class="text-center">
+                     <!-- <span class="actual1" [ngClass]="[col.financial<='5'?'green':col.financial>'5' && col.financial<='7'?'yellow':col.financial>'7'?'red':'']">{{col.financial}}</span> -->
+                    </td>
+                   <td class="text-center" >
+                   <!-- <span class="capacity">{{col.capacity}}</span> -->
+                  </td>
+                  <td class="text-center">
+                   <!-- <span class="actual2" [ngClass]="[col.operation<='5'?'green':col.operation>'5' && col.operation<='7'?'yellow':col.operation>'7'?'red':'']">{{col.operation}}</span> -->
+                  </td>
+                  <td class="text-center" >
+                   <!-- <span class="capacity">{{col.capacity}}</span> -->
+                  </td>
+                  <td class="text-center ">
+                   <!-- <span class="actual3" [ngClass]="[col.enterprise<='5'?'green':col.enterprise>'5' && col.enterprise<='7'?'yellow':col.enterprise>'7'?'red':'']">{{col.enterprise}}</span> -->
+                  </td>
+                  <td class="text-center" >
+                   <!-- <span class="capacity">{{col.capacity}}</span> -->
+                  </td>
+                  <td class="text-center ">
+                   <!-- <span class="actual4" [ngClass]="[col.country<='5'?'green':col.country>'5' && col.country<='7'?'yellow':col.country>'7'?'red':'']">{{col.country}}</span> -->
+                  </td>
+                  <td class="text-center" >
+                   <!-- <span class="capacity">{{col.capacity}}</span> -->
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-default" title="Delete" (click)="onDeleteRow(col,rowIndex)">  
+                      <i class="pi pi-trash text-danger delete" aria-hidden="true" pTooltip="Delete" tooltipPosition="bottom"></i>  
+                    </button>  
+                  </td>
+                </tr>
+               </ng-container>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

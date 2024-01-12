@@ -1,0 +1,58 @@
+<div class="esg mt-4">
+    <div class="page-heading">
+        <div class="left">
+          <h1>{{titleName}}</h1>
+        </div>
+        <div class="right">
+            <button class="btn btn-back" [routerLink]="['/customer/dashboard']">
+                <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+            </button>
+        </div>
+      </div>
+
+    <div class="banner mt-3">
+        <div class="left">
+            <p>Environmental, Social, & Governance (ESG) Score</p>
+        </div>
+        <div class="right-number-seaction">
+            <!-- <div class="images">
+                <img class="lock" src="../../../assets/images/lockscreen.png" alt="">
+            </div> -->
+            <h1>{{esgScore}}</h1>
+        </div>
+    </div>
+
+    <!-- code for sealink shipping table -->
+    <div class="esg-table">
+        <div class="row">
+            <div class="page-content mt-3">
+                <div class="showList mt-2 mb-3">
+    
+    
+                    <p-table class="table catalogue-table" [columns]="locationheaders" [value]="VendorQuestion"
+                        class="p-table mt-5" responsiveLayout="scroll">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <ng-container *ngFor="let col of columns">
+                                    <th class="cursor-pointer " pSortableColumn={{col.name}}>{{col.header}}<img
+                                            *ngIf="col.sort" class="topbottom"
+                                            src="../../assets/images/arrow_drop_up-24px@2x.png">
+                                    </th>
+                                </ng-container>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-Esg>
+                            <tr class="tr">
+                                <td>{{Esg.question}}</td>
+                                <td>
+                                    <i *ngIf="Esg.answer == 'yes'" class="icon icon-tick-circle"></i>
+                                    <i *ngIf="Esg.answer != 'yes'" class="icon icon-cross-circle"></i>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="invite-customer">
+    <div class="page-heading mt-4">
+        <div class="left">
+            <h1>Listing Page</h1>
+        </div>
+        <div class="right">
+            <button class="btn" [routerLink]="['/admin/invite-owner']">
+                <i class="icon-add icon" aria-hidden="true"></i><span>Invite New Owner</span>
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2" >
+        <div class="col-md-4">
+            <div class="card" (click)="filter('ALL')">
+                <div class="card-body">
+                    <h3 class="greenn">{{totalRecords}}
+                        <span>All</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" (click)="filter('ACTIVE')">
+                <div class="card-body">
+                    <h3 class="yelloww">{{active}}
+                        <span> Active</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" (click)="filter('INACTIVE')" >
+                <div class="card-body">
+                    <h3 class="bluee">{{inActive}}
+                        <span>Inactive</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="customer mt-4">
+        <p-table  #tt [columns]="customerHeaders" [value]="invitedCustomerList" class="p-table mt-5" 
+        (onLazyLoad)="refreshPage($event)" [paginator]="true" [lazy]="true" [sortOrder]="1"  
+        [rows]="pageSize" [totalRecords]="totalByStatus"  [showCurrentPageReport]="true"  (onSort)="handleSort($event)"
+           
+            currentPageReportTemplate="Showing {first} to {last} of {{totalByStatus}} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <ng-container *ngFor="let col of columns">
+                        <th [pSortableColumn]="col.name" [pSortableColumnDisabled]="!col.sort" [ngStyle]="{'width': col.width}">{{col.header}}<img *ngIf="col.sort"  class="topbottom" 
+                                src="../../assets/images/arrow_drop_up-24px@2x.png">
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-vendor>
+                <tr>
+                    <td>{{vendor.companyName}}</td>
+                    <td>{{vendor.fullName}}</td>
+                    <td>{{vendor.emailId}}</td>
+                    <td>{{vendor.country}}</td>
+                    <td>{{vendor.phoneNumber}}</td>
+                    <td>                        
+                        <p-inputSwitch  pTooltip="Enable / Disable" tooltipPosition="bottom" inputSwitch  *ngIf="vendor.status!='Approval Pending' && vendor.status!='Invited' && vendor.status!='User Created' && vendor.status!='Pending User Creation' && vendor.status!='Invitation Expired'" class="contacttext positions" [(ngModel)]="vendor.isActive" (onChange)="changeStatus(vendor)"></p-inputSwitch>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

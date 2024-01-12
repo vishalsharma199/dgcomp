@@ -1,0 +1,130 @@
+<div class="bank-compliance" >
+   <div class="grid flx-box">
+    <div  [ngClass]="tableHide ? 'col-12':'col-8'" >
+        <div class="bank-table mt-3 mb-4">
+            <div class="bank-thead">
+                <h1>Key Information</h1>
+            </div>
+            <div class="bank-tbody">
+                <!-- <div class="left"> -->
+                    <div class="grid flex-box">
+                        <div class="row">
+                        <div class="col-6 paddings"  *ngFor="let data of  dashboardData ">
+                            <div class="icons">
+                                <img src="../../../assets/images/black-arrow.png" alt="">
+                            </div>
+                            <div class="label-text">
+                                <label  class="label" for="">
+                                    <a *ngIf="data.url"  href={{data.url}}  target="_blank">{{data.name}} </a>
+                                    <p  *ngIf="!data.url"  href={{data.url}}  target="_blank">{{data.name}} </p>
+                                </label>
+                                <p *ngIf="data.listingStartDate">(Added to list On: {{ data.listingStartDate | date}})</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-head">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Sanctions 
+                            <span  (click)="onDisplayHide()" *ngIf="sanctioned.length>0">(Matched)</span>
+                            <span *ngIf="sanctioned.length==0">(Not Matched)</span>
+                        </h2>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Adverse Media 
+                            <span  (click)="onDisplayHide()" *ngIf="adverseMedia.length>0">(Matched)</span>
+                            <span *ngIf="adverseMedia.length==0">(Not Matched)</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="b-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for=""  >Fitness & Probity: <span>Not Matched</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Financial Crime:
+                            <span   (click)="onDisplayHide()" class="matched" *ngIf="adverseMediaFinancialCrime.length>0"   >Matched </span>
+                            <span *ngIf="adverseMediaFinancialCrime.length==0">Not Matched</span>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Sanctions: 
+                            <span  (click)="onDisplayHide()" *ngIf="sanctioned.length>0">(Matched) </span>
+                            <span *ngIf="sanctioned.length==0">Not Matched</span>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Fraud: 
+                            <span   (click)="onDisplayHide()" class="matched" *ngIf="adverseMediaFraud.length>0">(Matched)</span>
+                            <span *ngIf="adverseMediaFraud.length==0">Not Matched</span>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Warnings: <span>Not Matched</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Narcotics: 
+                            <span  (click)="onDisplayHide()"  class="matched" *ngIf="adverseMediaNarcotics.length>0">(Matched)</span>
+                            <span *ngIf="adverseMediaNarcotics.length==0">Not Matched</span>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Violent Crime:<span>Not Matched</span>
+                           
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Violent Crime:
+                            <span  (click)="onDisplayHide()" class="matched" *ngIf="adverseMediaViolentCrime.length>0">Matched</span>
+                            <span *ngIf="adverseMediaViolentCrime.length==0">Not Matched</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div  class="rightside col-4" *ngIf="!tableHide" >
+        <div class="heading">
+            <h2>{{adverseMedia.length>0?'Adverse Media':'Sanctions'}}</h2>
+        </div>
+        <div class="data">
+            <label for="">{{adverseMedia.length>0?'Adverse Media':'Sanctions'}} :  <span class="match">Matched</span></label>
+        </div>
+        <ng-container *ngFor="let col of matchedData">
+            <div class="heading-data">
+                <h2>Match Type</h2>
+            </div> 
+            <ng-container *ngFor="let type of col.matchType;let i=index">
+                <p class="para"><span>{{i+1}}</span> : {{ type}}</p>
+            </ng-container> 
+            <div class="heading-data">
+                <h2>Match Score</h2>
+            </div>
+            <p class="para">{{col.matchScore}}</p> 
+            <div class="heading-data">
+                <h2>Match Count</h2>
+            </div> 
+            <ng-container *ngFor="let count of col.matchCount;let i=index">
+                <p class="para">{{count.type}} : {{ count.count}}</p>
+            </ng-container> 
+            <div class="heading-data">
+                <h2>Match List</h2>
+            </div> 
+            <ng-container *ngFor="let list of col.matchList;let i=index">
+                <p class="para"><span>{{i+1}} </span> : {{ list}}</p>
+            </ng-container> 
+            <!-- <div class="heading-data">
+                <h2>Description</h2>
+            </div>
+            <ng-container *ngFor="let desc of col.description;let i=index">
+                <p class="para" > <span>{{i+1}}</span> : {{ desc}}</p>
+            </ng-container>  -->
+        </ng-container>    
+    </div>
+   </div>
+</div>

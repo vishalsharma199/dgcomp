@@ -1,0 +1,17 @@
+<div class="choose-profile">
+    <div class="display-flex radio-container mt-3 mb-2">
+        <div class="display-flex">
+            <input class="form-check-input ratiobtn " type="radio" value="VENDOR" id="vendor" [(ngModel)]="type" >
+            <label for="vendor" class="student-radio ml-2 mt-1">Vendor</label>
+         </div>   
+        <div class="display-flex"> 
+            <input class="form-check-input ratiobtn ml-3" type="radio" value="CUSTOMER"  id="customer" [(ngModel)]="type">
+            <label for="customer" class="student-radio ml-2 mt-1">Customer</label>
+         </div>  
+    </div>   
+    <div class="buttons mt-5 mb-2">
+        <button class="btn save" type="button" (click)="submit()">SUBMIT</button>
+    </div>    
+</div>
+<p-toast position="top-right">
+</p-toast>

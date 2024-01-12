@@ -1,0 +1,214 @@
+<div class="vendor-vservey">
+    <div class="vendor-survey mt-4" *ngIf="!isCreateSurvey">
+        <div class="heading">
+            <h1>Survey</h1>
+        </div>
+        <div class="row">
+            <div class="page-content mt-3">
+                <div class="showList mt-2">
+                    <p-table [columns]="surveyHeaders" [value]="surveyInfo" class="p-table mt-5"
+                        responsiveLayout="scroll">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <ng-container *ngFor="let col of columns">
+                                    <th pSortableColumn={{col.name}}>{{col.header}}</th>
+                                </ng-container>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-survey>
+                            <tr>
+                                <td nowrap>{{survey?.invitedOn}}</td>
+                                <td nowrap class="vendor-survey-title">{{survey?.title}}</td>
+                                <td>
+                                    <div *ngIf="survey.status=='Started Now'" class="bg-yellow" (click)="addSurvey(survey)" >
+                                        <span>{{survey?.status}}</span>
+                                    </div>
+                                    <div *ngIf="survey.status=='Completed'"  class='bg-green'>
+                                        <span>{{survey?.status}}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <!-- <div class="inline-img" *ngIf="survey.status!='Started Now'">
+                                        <i class="icon-view icon positions"></i>
+                                    </div> -->
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- add survey screen -->
+
+    <!-- <form action="" [formGroup]="SurveyForm" class="my-4" *ngIf="isCreateSurvey"> -->
+    <div class="add-screen" *ngIf="isCreateSurvey">
+        <div class="screen-container">
+            <div class="heading">
+                <h1>Survey</h1>
+            </div>
+            <div class="buttons">
+                <button class="btn cancel" (click)="backSurvey()">Back to Listing</button>
+            </div>
+        </div>
+
+
+        <form [formGroup]="surveyForm">
+
+            <div formArrayName="questionsAnswer" class="question-section">
+                <ng-container *ngFor="let survey of surveyForm.get('questionsAnswer')['controls'] let i=index; ">
+                    <div [formGroupName]="i">
+                        <div class="mt-4">
+                            <h1>Q 0{{i+1}}<span
+                                    class="ml-3">{{survey.get('question').value}}</span></h1>
+                        </div>
+                        <div class="ans" *ngIf="survey.get('vendorRatingType').value == 'Excellent/Good/Average/Poor/Worst'">
+                            <div class="survey-answer">
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating" value="Excellent">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    Excellent
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="Good">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    Good
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="Average">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    Average
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="Poor">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    Poor
+                                </label>
+
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="Worst">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    Worst
+                                </label>
+                            </div>
+                        </div>
+                        <div class="ans" *ngIf="survey.get('vendorRatingType').value == 'Good/Average/Worse'">
+                            <div class="survey-answer">
+
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating" value="Good" >
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1"> Good </label>
+
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating" value="Average">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1"> Average </label>
+
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating" value="Worst">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1"> Worst </label>
+                            </div>
+                        </div>
+                     
+                        <div class="ans" *ngIf="survey.get('vendorRatingType').value == '1 to 3'">
+                            <div class="survey-answer">
+                                <!-- <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="1"> -->
+                                    <p-radioButton name="rating" value="1" class="mx-2" formControlName="rating" >
+                                    </p-radioButton>
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    1
+                                </label>
+                                <!-- <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="2"> -->
+                                    <p-radioButton name="rating" value="2" class="mx-2" formControlName="rating">
+                                    </p-radioButton>
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    2
+                                </label>
+                                <!-- <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="3"> -->
+                                    <p-radioButton name="rating" value="3" class="mx-2" formControlName="rating">
+                                    </p-radioButton>
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    3
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="ans" *ngIf="survey.get('vendorRatingType').value == '1 to 5'">
+                            <div class="survey-answer">
+                                <input class="mx-2" type="radio"  name="rating" formControlName="rating"  value="1">
+                                <label class="mr-3" for="flexRadioDefault1"> 1 </label>
+
+                                <input class="mx-2" type="radio"  name="rating" formControlName="rating"  value="2">
+                                <label class="mr-3" for="flexRadioDefault1"> 2 </label>
+                                
+                                <input class="mx-2" type="radio" name="rating" formControlName="rating"  value="3">
+                                <label class="mr-3" for="flexRadioDefault1"> 3 </label>
+
+                                <input class="mx-2" type="radio"  name="rating" formControlName="rating"  value="4">
+                                <label class="mr-3" for="flexRadioDefault1"> 4 </label> 
+                                
+                                <input class="mx-2" type="radio"  name="rating" formControlName="rating"  value="5">
+                                <label class="mr-3" for="flexRadioDefault1"> 5 </label>
+                            </div>
+                        </div>
+
+                        <div class="ans" *ngIf="survey.get('vendorRatingType').value == '1 to 10' || survey.get('vendorRatingType').value == 'start rating' ">
+                            <div class="survey-answer">
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="1">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    1
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="2">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    2
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="3">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    3
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="4">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">
+                                    4
+                                </label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="5">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1"> 5 </label>
+
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="6">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">6</label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="7">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">7</label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="8">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">8</label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="9">
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">9</label>
+                                <input class="form-check-input ratiobtn mx-2" type="radio" formControlName="rating"
+                                    value="10" >
+                                <label class="form-check-label radioValue mr-3" for="flexRadioDefault1">10</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+
+            </div>
+            <div class="invite-comment mt-5">
+                <h3 class="mb-2">Any Comment / Message </h3>
+                <textarea formControlName="message" class="comment" [rows]="5" [cols]="80" autoResize="autoResize"
+                    pInputTextarea></textarea>
+            </div>
+
+            <div class="buttons mt-5">
+                <button class="btn next" (click)="inviteSend()">Invite</button>
+            </div>
+        </form>
+    </div>

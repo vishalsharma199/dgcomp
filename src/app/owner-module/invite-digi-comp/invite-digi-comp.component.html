@@ -1,0 +1,161 @@
+<div class="invite-new-customer invite-new-vendor">
+    <div class="page-heading mt-4">
+        <div class="left">
+            <h1 class="invite">Invite To Digi<span class="dg-comp-span">Comp+</span></h1>
+        </div>
+        <div class="right">
+            <button class="btn btn-back" [routerLink]="['/customer/invite-customer']">
+                <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+            </button>
+            <button class="btn" [routerLink]="['/customer/bulk-invite']"> <i class="icon-user icon"></i><span>Bulk
+                    Invite</span></button>
+        </div>
+    </div>
+
+    <form [formGroup]="vendorForm">
+        <div class="task">
+            <div class="invite-table">
+                <div class="row mt-3  form-group">
+                    <div class="col-md-6 mb-2 admin-invite-customer checkbox-container">
+                        <label for="Student" class="checkbox-label">Select:</label>
+                        <input class="form-check-input ratiobtn " type="radio" formControlName="vendorType"
+                            value="VENDOR" id="vendor">
+                        <label for="vendor" class="student-radio ml-2 mt-1">Vendor</label>
+                        <input class="form-check-input ratiobtn ml-3" type="radio" formControlName="vendorType"
+                            value="CUSTOMER" id="customer">
+                        <label for="customer" class="student-radio ml-2 mt-1">Customer</label>
+                        <div app-errors class="error-msg" [control]="f.vendorType" [submit]="formSubmitAttempt"
+                            label="Vendor Type ">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for=" phoneNumber">Registration Number<i class="red-star">*</i> </label>
+                            <input type="text" class="form-control" placeholder="Registration Number"
+                                formControlName="identificationNumber"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.identificationNumber.errors}"
+                                (keydown)="validators.space($event)">
+                        </div>
+                        <div app-errors class="error-msg phone" [control]="f.identificationNumber"
+                            [submit]="formSubmitAttempt" label="Registration Number">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="companyName"> Country<i class="red-star">*</i> </label>
+                            <p-dropdown class="borders" [options]="countries" filter="true" formControlName="country"
+                                optionLabel="name" (keypress)="characterOnly($event)" optionValue="code"
+                                (onChange)="changeCountry($event)" placeholder="Select a Country"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.country.errors}">
+                            </p-dropdown>
+                        </div>
+                        <div app-errors class="error-msg phone" [control]="f.country" [submit]="formSubmitAttempt"
+                            label="Country">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 mb-2  admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="Student" class="students col-4">Registration Reference Type<i
+                                    class="red-star">*</i></label>
+                            <input type="text" class="form-control" placeholder="Registration Reference Type"
+                                formControlName="identificationType"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.identificationType.errors}"
+                                (keydown)="space($event)">
+                        </div>
+                        <div app-errors class="error-msg" [control]="f.identificationType" [submit]="formSubmitAttempt"
+                            label="Registration Reference Type"></div>
+                    </div>
+
+
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="Student" class="students col-4">Company Name<i class="red-star">*</i></label>
+                            <input type="text" class="pText col-md-6 mb-2 admin-invite-customer" pInputText
+                                formControlName="companyName"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.companyName.errors}">
+                        </div>
+                        <div app-errors class="error-msg" [control]="f.companyName" [submit]="formSubmitAttempt"
+                            label="Company Name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="Student" class="students col-3">First Name<i class="red-star">*</i></label>
+                            <input type="text" class="pText col-md-6 mb-2 admin-invite-customer" pInputText
+                                formControlName="firstName"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.firstName.errors}"
+                                (keydown)="validators.space($event)">
+                        </div>
+                        <div app-errors class="error-msg" [control]="f.firstName" [submit]="formSubmitAttempt"
+                            label="First Name"></div>
+                    </div>
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="Student" class="students col-4">Last Name<i class="red-star">*</i></label>
+                            <input type="text" class="pText col-md-6 mb-2 admin-invite-customer" pInputText
+                                formControlName="lastName"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.lastName.errors}"
+                                (keydown)="validators.space($event)">
+                        </div>
+                        <div app-errors class="error-msg" [control]="f.lastName" [submit]="formSubmitAttempt"
+                            label="Last Name"></div>
+                    </div>
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label for="Student" class="students col-3">Email ID<i class="red-star">*</i></label>
+                            <input type="text" class="pText col-md-6 mb-2 admin-invite-customer" pInputText
+                                formControlName="emailId"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.emailId.errors}"
+                                (keydown)="validators.space($event)">
+                        </div>
+                        <div app-errors class="error-msg" [control]="f.emailId" [submit]="formSubmitAttempt"
+                            label="Email Id"></div>
+                    </div>
+                    <div class="col-md-6 mb-2 admin-invite-customer">
+                        <div class="input-wrapper">
+                            <label class="admin-phone-label" for=" Country">Phone Number<i class="red-star">*</i>
+                            </label>
+                            <input #phone class="form-control admin-phone-number" (keypress)="numberOnly($event)"
+                                placeholder="  " ng2TelInput formControlName="phoneNumber"
+                               
+                                (countryChange)="onCountryChange($event)" (hasError)="onError($event)"
+                                [ngClass]="{'is-invalid':formSubmitAttempt && f.phoneNumber.errors}">
+                        </div>
+                        <div app-errors class="error-msg phone" [control]="f.phoneNumber" [submit]="formSubmitAttempt"
+                            label="Phone Number"></div>
+                        <div class="error-msg phone" *ngIf="!f.phoneNumber.errors && !hasError">
+                            Invalid Phone Number
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-6 mb-2 admin-invite-customer">
+                            <div class="invite-digi mt-3">
+                                <label for="Student" class="students col-3">Seek Data</label>
+                                <div class="financheck">
+                                    <input type='checkbox' checked="checked" formControlName="financialInformationFlag"
+                                        class="form-check-input ml-2" (keydown)="validators.space($event)">
+                                    <p class="mt-1">Financial Information</p>
+                                </div>
+                            </div>
+                    </div> -->
+                </div>
+
+            </div>
+        </div>
+        <div class="buttons mt-5 mb-3">
+            <button class="btn cancel" (click)="cancelClick()">Reset</button>
+            <button class="btn save" (click)="createVendor()">Send Invite</button>
+        </div>
+    </form>
+
+
+
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

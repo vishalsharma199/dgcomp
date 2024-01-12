@@ -1,0 +1,59 @@
+
+<div class="bank-dashboard">
+    <div class="header ">
+        <div class="left">
+            <ng-container *ngIf="isSeekData">
+                <div class="logo-img">
+                    <img src="../../../assets/images/bank-icons.png" alt="bank-logo">
+                </div>
+                <div class="heading">
+                    <div class="head">
+                        <h1>{{title}}</h1>
+                        <button (click)="addToDashboard()">Add to My Dashboard</button>
+                        <button class="invite" [routerLink]="['/customer/invite']">Invite to Digicomp+</button>
+                    </div>
+                    <div class="para">
+                        <label  >Incorporation Date : 12-June-2004</label> <span>|</span>
+                        <label class="first" >Registration Number : 293909221</label>
+                    </div>
+                </div>
+            </ng-container>   
+        </div>
+        <div class="right">
+            <div >
+            <button class="btn btn-back" [routerLink]="['/customer/search-result/'+cisId]">
+                <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+            </button>
+            </div>
+            <div>
+                <!-- <p>Last Activity : 12 june,2008</p>
+                <p>Tower-B Unitech Cyber Park Sector 39 Gurugram</p>  -->
+             </div>   
+          
+        </div>
+    </div>
+    
+    <div class="loader" *ngIf="!isSeekData && isFinancial">
+        <div class="loader-text"></div>
+    </div>
+    <div class="tab-views mt-3" *ngIf="isSeekData" >
+        <div class="col-md-12">
+            <div class="settingForm" *ngIf="isRes">
+                <p-tabView   dynamic="true"   responsiveLayout="scroll">
+                    <p-tabPanel header="Compliance" *ngIf="!isFinancial">
+                        <app-bank-compliance *ngIf="!isFinancial"></app-bank-compliance>
+                    </p-tabPanel>
+                    <p-tabPanel header="Directors & Shareholders" *ngIf="isFinancial" class="mt-4" >
+                        <app-bank-director [financialData]="financialData" *ngIf="isFinancialRes" ></app-bank-director>
+                    </p-tabPanel>
+                    <p-tabPanel header="Financial" class="mt-4" *ngIf="isFinancial" >
+                        <app-bank-financial  [financialData]="financialData" *ngIf="isFinancialRes"></app-bank-financial>
+                    </p-tabPanel>
+                    <!-- <p-tabPanel header="ESG" class="mt-4">
+                        <app-bank-esg></app-bank-esg>
+                    </p-tabPanel> -->
+                </p-tabView>
+            </div>
+        </div>
+    </div>
+</div>

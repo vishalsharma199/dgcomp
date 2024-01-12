@@ -1,0 +1,89 @@
+<div class="page-heading mt-4">
+  <div class="left">
+    <h1>{{type=='customer'?'Customers Compliance':'Vendors Compliance'}}</h1>
+    <!-- <h1 class="font-bold text-2xl" *ngIf="type=='customer'">Customers Compliance </h1>
+    <h1 class="font-bold text-2xl" *ngIf="type=='vendor'">Vendors Compliance </h1> -->
+  </div>
+  <div class="right">
+    <button class="btn btn-back" [routerLink]="['/customer/dashboard']">
+      <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+    </button>
+  </div>
+</div>
+
+<div class="contactheading" style="justify-content:right">
+  <ul class="risk">
+    <li class="mr-3"><span class="box green"></span>Compliance</li>
+    <!-- <li class="mr-3"><span class="box yellow"></span>Medium Risk</li> -->
+    <li><span class="box red"></span>Non-Compliance</li>
+  </ul>
+</div>
+
+<div class="page-content mt-3">
+  <div class="showList">
+    <table class="table compliance-table" *ngIf="customerData.length>0 || vendorData.length>0">
+      <thead>
+        <tr class="riskTypes" *ngIf="type=='customer'">
+          <ng-container *ngFor="let col of heading">
+            <th>{{col.name}}</th>
+          </ng-container>
+        </tr>
+        <tr class="riskTypes" *ngIf="type=='vendor'">
+          <ng-container *ngFor="let col of vendorHeading">
+            <th>{{col.name}}</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="type=='customer'">
+          <ng-container *ngFor="let col of customerData">
+            <tr>
+              <td (click)="gotoDashboard(col)" class="cursor-pointer">{{col.cisComplianceData.companyName}}</td>
+              <td>{{col.cisComplianceData.entityType=='organisation' || col.cisComplianceData.entityType=='person'?'COMPANY':col.cisComplianceData.entityType}}</td>
+              <td>
+                <span class="{{col.sanctions=='N'?'red':'green'}}">{{col.sanctions}}</span>
+              </td>
+              <!-- <td>
+                <span class="{{col.policyExposed=='N'?'red':'green'}}">{{col.policyExposed}}</span>
+              </td> -->
+              <td>
+                <span class="{{col.adverseMedia=='N'?'red':'green'}}">{{col.adverseMedia}} </span>
+              </td>
+              <td>
+                <button type="button" class="btn btn-default" title="Delete" (click)="onDeleteRow(col,rowIndex)">  
+                  <i class="pi pi-trash text-danger delete" aria-hidden="true" pTooltip="Delete" tooltipPosition="bottom"></i>  
+                </button>  
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="type=='vendor'">
+          <ng-container *ngFor="let col of vendorData">
+            <tr>
+              <td (click)="gotoDashboard(col)" class="cursor-pointer">{{col.cisComplianceData.companyName}}</td>
+              <td>{{col.cisComplianceData.entityType=='organisation'?'COMPANY':col.cisComplianceData.entityType}}</td>
+              <td>
+                <span class="{{col.sanctions=='N'?'red':'green'}}">{{col.sanctions}}</span>
+              </td>
+              <!-- <td>
+                <span class="{{col.policyExposed=='N'?'red':'green'}}">{{col.policyExposed}}</span>
+              </td> -->
+              <td>
+                <span class="{{col.adverseMedia=='N'?'red':'green'}}">{{col.adverseMedia}} </span>
+              </td>
+              <td>
+                <button type="button" class="btn btn-default" title="Delete" (click)="onDeleteRow(col,rowIndex)">  
+                  <i class="pi pi-trash text-danger delete" aria-hidden="true" pTooltip="Delete" tooltipPosition="bottom"></i>  
+                </button>  
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<!-- <div class="buttons" >
+      <button class="btn cancel" [routerLink]="['/customer/dashboard']" >CANCEL</button>
+    </div> -->

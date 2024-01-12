@@ -1,0 +1,74 @@
+<div class="add-usermanagment">
+    <div class="page-heading  mt-4">
+        <div class="left">
+            <h1>Add User Access Management</h1>
+        </div>
+        <div class="right">
+            <button class="btn btn-back" [routerLink]="['/vendor/user-management']">
+                <i class="icon-back icon" aria-hidden="true"></i><span>Back</span>
+            </button>
+        </div>
+    </div>
+    <form  [formGroup]="userForm">
+        <div class="row companyuser">
+            <div class="col-12">
+                <div class="row mt-2">
+                    <div class="col-md-3 form-group">
+                        <label for="" class="">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="firstName" (keydown)="validators.space($event)">
+                        <div app-errors class="error-msg" [control]="f.firstName"  label="First Name"></div>
+                    </div>
+                    
+                    <div class="col-md-3 form-group">
+                        <label for="" class="">Last Name<span class="text-danger" >*</span></label>
+                        <input type="text" class="form-control"  formControlName="lastName" (keydown)="validators.space($event)">
+                        <div app-errors class="error-msg" [control]="f.lastName"  label="Last Name"></div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="" class="">Email Address<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="email" [disabled]="editMode" (keydown)="validators.space($event)">
+                        <div app-errors class="error-msg" [control]="f.email"  label="Email Address"></div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="" class="user-mangment">Phone Number<span class="text-danger">*</span></label>
+                        <input type="text" (keypress)="numberOnly($event)" formControlName="mobileNumber" class="form-control" placeholder="   "
+                        (hasError)="onError($event)" (countryChange)="onCountryChange($event)" >
+                        <div app-errors class="error-msg" [control]="f.mobileNumber"  label="Phone Number"></div>
+                        <div class="error-msg" *ngIf="(f.mobileNumber.touched &&  f.mobileNumber.value!='') && !hasError">
+                            Invalid Phone Number
+                        </div>
+                    </div>
+                </div>
+                <h3>Locations</h3>
+                <div class="row"  >
+                    <div class="col-md-3 form-group"  style="display: flex;" *ngFor="let location of locations">
+                        <input type="checkbox" (change)="onLocationChange($event)" [value]="location.value" [checked]='location.check' class="form-check-input ml-2" />
+                        <label for="binary" class=" form-check ">{{location.label}}</label>
+                    </div>
+                </div>
+        
+                <h3 class="mt-4">Access Roles</h3>
+                <div class="row">
+                    <div class="col-md-3 form-group"  style="display: flex;"  *ngFor="let role of roles">
+                        <input type="checkbox" (change)="onAccessChange($event)" [value]="role.value" [checked]='role.check' class="form-check-input ml-2" />
+                        <label for="binary" class=" form-check ">{{role.label}}</label>
+                    </div>
+                </div>
+        
+                <h3 class="mt-4">Departments</h3>
+                <div class="row" >
+                    <div class="col-md-3 form-group"  style="display: flex;" *ngFor="let department of departments">
+                        <input type="checkbox" (change)="onDepartmentsChange($event)" [value]="department.value" [checked]='department.check' class="form-check-input ml-2" />
+                        <label for="binary" class=" form-check ">{{department.label}}</label>
+                    </div>
+                </div>
+               
+                <div class="buttons mt-5 mb-5">
+                    <button class="btn cancel" (click)="cancelClick()">Reset</button>
+                    <button class="btn next" (click)="submit()">Submit</button>
+                </div>
+            </div>
+        </div>
+        </form>
+        
+</div>

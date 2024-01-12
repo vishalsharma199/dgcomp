@@ -1,0 +1,32 @@
+<div class="reason-for-rejection">
+    <form [formGroup]="instructionForm">
+        <div class="row form-group">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-3 col-12">
+                        <label for="message">Message<i class="red-star">*</i> </label>
+                    </div>
+                    <div class="col-md-9 col-12">
+                        <textarea cols="60" rows="5" class="details" autoResize="autoResize" pInputTextarea
+                        formControlName="message" [ngClass]="{'is-invalid':formSubmitAttempt && f.message.errors}" (keydown)="validators.space($event)"></textarea>
+                        <div app-errors class="error-msg" [control]="f.message" [submit]="formSubmitAttempt" label="Message">
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="input-wrapper">
+                    <div class="label">
+                       
+                    </div>
+
+                </div> -->
+              
+             </div>
+             
+        
+        </div>
+        <div class="buttons">
+            <button class="btn cancel" (click)="close()">Reset</button>
+            <button class="btn save" (click)="postData()">Submit</button>
+        </div>
+    </form>
+</div>
